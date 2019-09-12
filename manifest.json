@@ -5,7 +5,7 @@
   "permissions": ["activeTab", "declarativeContent", "storage"],
   "options_page": "options.html",
   "web_accessible_resources": [
-    "data/trycl_app_style.css"
+    "data/bilibili_chrome_app_extend_style.css"
   ],
   "background": {
     "scripts": ["background.js"],
