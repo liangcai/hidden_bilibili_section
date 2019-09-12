@@ -1,0 +1,24 @@
+/* 推荐 */
+/* #chief_recommend {
+    display: none;
+} */
+
+/* 推广 */
+#home_popularize {
+    display: none;
+}
+
+#home_popularize ~ [id^="bili_"] {
+    display: none;
+}
+
+
+/* 动画 */
+#bili_douga {
+    display: inherit !important;
+}
+
+/* 番剧 */
+#bili_bangumi {
+    display: inherit !important;
+}

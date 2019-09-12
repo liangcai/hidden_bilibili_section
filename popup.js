@@ -5,6 +5,8 @@
 'use strict';
 
 let changeColor = document.getElementById('changeColor');
+const log = chrome.extension.getBackgroundPage().console.log;
+
 
 chrome.storage.sync.get('color', function(data) {
   changeColor.style.backgroundColor = data.color;
@@ -16,6 +18,8 @@ changeColor.onclick = function(element) {
   chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
     chrome.tabs.executeScript(
         tabs[0].id,
-        {code: 'document.body.style.backgroundColor = "' + color + '";'});
+        {file: "append_css.js"},
+        function () {log('run the click function');}
+        );
   });
 };

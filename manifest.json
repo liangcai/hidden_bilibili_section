@@ -4,6 +4,9 @@
   "description": "Build an Extension!",
   "permissions": ["activeTab", "declarativeContent", "storage"],
   "options_page": "options.html",
+  "web_accessible_resources": [
+    "data/trycl_app_style.css"
+  ],
   "background": {
     "scripts": ["background.js"],
     "persistent": false
