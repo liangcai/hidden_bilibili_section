@@ -1,21 +1,26 @@
-// Copyright 2018 The Chromium Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style license that can be
-// found in the LICENSE file.
-
 'use strict';
 
-let page = document.getElementById('buttonDiv');
-const kButtonColors = ['#3aa757', '#e8453c', '#f9bb2d', '#4688f1'];
-function constructOptions(kButtonColors) {
-  for (let item of kButtonColors) {
-    let button = document.createElement('button');
-    button.style.backgroundColor = item;
-    button.addEventListener('click', function() {
-      chrome.storage.sync.set({color: item}, function() {
-        console.log('color is ' + item);
-      })
-    });
-    page.appendChild(button);
-  }
+let app = document.querySelector('#app');
+
+function createEleFromHTML(htmlString) {
+    let div = document.createElement('div')
+    div.innerHTML = htmlString.trim()
+    return div.firstChild
 }
-constructOptions(kButtonColors);
+
+function createItemsEle(cats) {
+    let itemsEle = createEleFromHTML('<div class="items"></div>')
+    for (let [id, name] of cats.entries()) {
+        let htmlString = `<div class="item">
+        <input type="checkbox" id="${id}">
+        <label for="${id}">${name}</label>
+      </div>`
+
+        itemsEle.append(createEleFromHTML(htmlString))
+    }
+    return itemsEle
+}
+
+let cats = new Map().set('id', 'name')
+let itemsEle = createItemsEle(cats)
+app.appendChild(itemsEle)
