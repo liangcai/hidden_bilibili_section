@@ -28,6 +28,26 @@ function createItemsEle(cats) {
     return itemsEle
 }
 
+function saveData(type, value, state) {
+    console.log('run saveData')
+
+    if (type === 'checkData') {
+        if (state === 'checked') {
+            chrome.storage.local.get(['checkData'], function (result) {
+                console.log(typeof (result.checkData))
+                if (!result.checkData) {
+                    chrome.storage.local.set({'checkData': [value]}, () => {
+                        console.log('Value currently is ' + result.checkData);
+                    })
+                } else {
+                    chrome.storage.local.set({'checkData': [...new Set([...result.checkData, value])]}, () => {
+                        console.log('Value currently is ' + result.checkData);
+                    })
+                }
+            });
+        }
+    }
+}
 
 function constructOptions() {
     const url = chrome.runtime.getURL('data/cats.json')
@@ -44,6 +64,7 @@ function constructOptions() {
                         console.log(event)
                         if (event.target.checked) {
                             console.log('checked: ' + event.target.value)
+                            saveData('checkData', event.target.value, 'checked')
                         } else {
                             console.log('cancel checked: ' + event.target.value)
                         }
@@ -53,8 +74,5 @@ function constructOptions() {
         )
 }
 
-// let cats = new Map().set('id', 'name')
-// let itemsEle = createItemsEle(cats)
-// app.appendChild(itemsEle)
 
 constructOptions()
