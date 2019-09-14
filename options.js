@@ -6,7 +6,6 @@ const createItemsEleFromJson = (text) => {
     let itemsEle = createItemsEle(cats)
     chrome.storage.local.get(['checkData'], (result) =>{
         for(let id of result.checkData) {
-            console.log(itemsEle, result)
             let item = itemsEle.querySelector(`input[value="${id}"]`)
             if (item) {
                 item.checked = true
@@ -60,6 +59,13 @@ function saveData(type, value, state) {
                     })
                 }
             });
+        } else {
+            chrome.storage.local.get(['checkData'], function (result) {
+                let newArray = result.checkData.filter(val => val !== value)
+                chrome.storage.local.set({'checkData': newArray}, ()=>{
+                    console.log(`remove ${value}, current checkData: ${newArray}`)
+                })
+            })
         }
     }
 }
@@ -82,6 +88,7 @@ function constructOptions() {
                             saveData('checkData', event.target.value, 'checked')
                         } else {
                             console.log('cancel checked: ' + event.target.value)
+                            saveData('checkData', event.target.value, 'unchecked')
                         }
                     })
                 }
