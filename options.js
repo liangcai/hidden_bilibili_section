@@ -4,6 +4,20 @@
 const createItemsEleFromJson = (text) => {
     let cats = new Map(JSON.parse(text))
     let itemsEle = createItemsEle(cats)
+    chrome.storage.local.get(['checkData'], (result) =>{
+        for(let id of result.checkData) {
+            console.log(itemsEle, result)
+            let item = itemsEle.querySelector(`input[value="${id}"]`)
+            if (item) {
+                item.checked = true
+            } else {
+                // todo 异常值处理
+                console.log('应该要删除这个异常值', id)
+            }
+        }
+    })
+
+
     app.appendChild(itemsEle)
 }
 
@@ -27,6 +41,7 @@ function createItemsEle(cats) {
     }
     return itemsEle
 }
+
 
 function saveData(type, value, state) {
     console.log('run saveData')
